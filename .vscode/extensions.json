@@ -1,0 +1,7 @@
+{
+	"recommendations": [
+		"bungcip.better-toml",
+		"clazex.lux-pack",
+		"rust-lang.rust"
+	]
+}

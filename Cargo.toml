@@ -1,0 +1,19 @@
+[package]
+name = "timer"
+version = "1.0.0"
+description = "A simple command line timer written in Rust"
+authors = ["Clazex <clazex.y@gmail.com>"]
+license = "MIT"
+edition = "2018"
+publish = false
+homepage = "https://github.com/Clazex/rust-timer#readme"
+repository = "https://github.com/Clazex/rust-timer/"
+categories = ["command-line-utilities", "date-and-time", "development-tools::profiling"]
+keywords = ["command", "information", "performance", "time", "utility"]
+
+[dependencies]
+clap = "^2.33.3"
+terminal_size = "^0.1.17"
+
+[profile.release]
+lto = true
