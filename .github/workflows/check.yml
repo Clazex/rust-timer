@@ -1,0 +1,11 @@
+name: Check
+on: [push, pull_request]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - id: checkout
+        uses: actions/checkout@v2
+      - id: clippy
+        run: cargo clippy

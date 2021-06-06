@@ -1,0 +1,73 @@
+name: Build Release Asset
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: mkdir dist
+
+      - run: cargo build --release --locked
+      - run: cp ./target/release/timer.exe ./dist/timer-windows.exe
+      - run: cp ./target/release/timer.pdb ./dist/timer-windows.pdb
+
+      - uses: softprops/action-gh-release@v1
+        with:
+          files: dist/**
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+  build-windows-i686:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: rustup target add i686-pc-windows-msvc
+      - run: mkdir dist
+
+      - run: cargo build --release --locked --target i686-pc-windows-msvc
+      - run: cp ./target/i686-pc-windows-msvc/release/timer.exe ./dist/timer-windows-i686.exe
+      - run: cp ./target/i686-pc-windows-msvc/release/timer.pdb ./dist/timer-windows-i686.pdb
+
+      - uses: softprops/action-gh-release@v1
+        with:
+          files: dist/**
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: mkdir dist
+      - run: cargo build --release --locked
+      - run: cp ./target/release/timer ./dist/timer-linux
+
+      - uses: softprops/action-gh-release@v1
+        with:
+          files: dist/**
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+  build-darwin:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: mkdir dist
+      - run: cargo build --release --locked
+      - run: cp ./target/release/timer ./dist/timer-darwin
+
+      - uses: softprops/action-gh-release@v1
+        with:
+          files: dist/**
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
